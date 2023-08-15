@@ -1,0 +1,22 @@
+{
+  "name": "abdobooks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^3.1.8",
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "crawlee": "^3.5.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.4.1",
+    "playwright": "^1.36.2"
+  }
+}
