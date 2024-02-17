@@ -3,10 +3,13 @@ const dotenv = require('dotenv');
 const app = express();
 const mongoose = require('mongoose');
 const booksRouter = require ('./router/booksRouter');
-const Books = require('./models/productModel')
+const Books = require('./models/productModel');
 
 dotenv.config();
 
+app.use(express.static("public"));
+app.use(express.urlencoded ({extended: true}))
+app.set('view engine', 'ejs');
 
 // connect MongoDB
 const MONGODB_URI = 'mongodb://localhost:27017/abdoDB';

@@ -1,11 +1,13 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Books = require('../models/productModel');
+const mongoose = require('mongoose');
 
 
 exports.takeBooks = async (req, res) => {
     const url = 'https://abdobooks.com/products/tag/marvel';
     let product = [];
+    let productDet = [];
     try {
         // request
         const response = await axios(url)
@@ -24,8 +26,6 @@ exports.takeBooks = async (req, res) => {
 
         console.log(product);
 
-        let productDet = [];
-
         //take info of each book
         for(const book of product){
             let detObj = {};
@@ -39,14 +39,18 @@ exports.takeBooks = async (req, res) => {
                 detObj[key] = value;
             })
             productDet.push(detObj);
-        }        
+        }     
 
-        
     } catch (error) {
         console.log(error);
     }
+
+    const bookDetail = product.map((book, index) => ({
+        ...book,
+        ...productDet[index]
+    }));
     
-    return product;
+    return bookDetail;
 } 
 
 
@@ -54,16 +58,30 @@ exports.saveBooks = async (req, res) => {
     //save books info to database
     try{
       book_list = await this.takeBooks();
-
-      console.log('book list: ', book_list);
       res.json(book_list);
       Books.insertMany(book_list);  
-      console.log('Data inserted successfully');
-      res.status(200).send('Data inserted successfully');
-  
+      console.log('Data inserted successfully');  
     } catch (error) {
       console.log(error);
       res.status(500).send('An error occurred while fetching or saving books.');
     }
       
   }
+
+exports.getProduct = async (req, res) => {
+    const result = await Books.find();
+    res.render("index.ejs", {product: result});
+}
+
+exports.deleteBooks = async (req, res) => {
+
+    try {
+        // Delete all documents from the Books collection
+        await Books.deleteMany({});
+        console.log('Data deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting data:', error.message);
+    } 
+
+}
+

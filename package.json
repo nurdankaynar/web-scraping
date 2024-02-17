@@ -15,6 +15,7 @@
     "cheerio": "^1.0.0-rc.12",
     "crawlee": "^3.5.0",
     "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongoose": "^7.4.1",
     "playwright": "^1.36.2"
